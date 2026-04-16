@@ -177,9 +177,37 @@ h2{
   background:#00e5ff;
   border-radius:10px;
 }
+
+#progress-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0%;
+  background:#00e5ff;
+  z-index:9999;
+  box-shadow:0 0 10px #00e5ff;
+}
+
+#page-transition{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background:#0a0a0f; /* 初期は黒 */
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform 0.5s ease;
+  z-index:99999;
+  filter: blur(10px);
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
 </style>
 </head>
 <body>
+<div id="page-transition"></div>
+<div id="progress-bar"></div>
 
 <header>
   <img src="https://i.gyazo.com/f8acbedbd49c6cb2b5df494bd3de0e29.webp">
@@ -273,19 +301,41 @@ document.querySelectorAll("a").forEach(link=>{
   link.addEventListener("click", function(e){
     const href = this.getAttribute("href");
 
-    if(href === "index.html"){
-      sessionStorage.setItem("skipLoader", "true");
-    }
-
     if(href && !href.startsWith("#") && !this.target){
       e.preventDefault();
-      document.body.classList.add("fade-out");
+
+      const overlay = document.getElementById("page-transition");
+
+      // 🔥 行き先ごとの色
+      if(href.includes("cultivate")){
+        overlay.style.background =
+          "radial-gradient(circle at 20% 20%, rgba(0, 229, 255, 0.15), transparent), " +
+          "radial-gradient(circle at 80% 80%, rgba(0, 229, 255, 0.1), transparent)";
+        
+        sessionStorage.setItem("transitionDir", "forward");
+
+      } else {
+        overlay.style.background = "#0a0a0f";
+        
+        sessionStorage.setItem("transitionDir", "back");
+      }
+
+      overlay.style.transformOrigin = "bottom";
+      overlay.style.transform = "scaleY(1)";
 
       setTimeout(()=>{
         window.location = href;
-      },400);
+      },500);
     }
   });
+});
+
+// プログレスバー
+window.addEventListener("scroll", ()=>{
+  const scroll = window.scrollY;
+  const height = document.body.scrollHeight - window.innerHeight;
+  const percent = (scroll / height) * 100;
+  document.getElementById("progress-bar").style.width = percent + "%";
 });
 </script>
 
