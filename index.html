@@ -111,6 +111,10 @@ header{
   text-align:center;
 }
 
+header {
+  gap: 15px;
+}
+
 header img{
   width:120px;
   border-radius:50%;
@@ -237,8 +241,9 @@ h2{
   text-align:center;
 }
 
-.highlight .card{
-  border:2px solid #00e5ff;
+.highlight .card {
+  border: 2px solid #00e5ff;
+  box-shadow: 0 0 40px rgba(0,229,255,0.3);
 }
 
 /* 固定CTA */
@@ -276,6 +281,8 @@ h2{
   <div class="tagline" id="typing"></div>
 
   <p>Discord Botで“運営を仕組み化”するエンジニア</p>
+  
+  <a href="cultivate.html" class="btn">Cultivateを見る</a>
 
   <div class="scroll">↓ Scroll ↓</div>
 </header>
@@ -312,13 +319,13 @@ h2{
   <div class="grid">
     <div class="card main">
       <h3>𝓒𝓾𝓵𝓽𝓲𝓿𝓪𝓽𝓮</h3>
-      <p>メインBot</p>
+      <p>運営自動化Bot</p>
       <a class="btn" href="cultivate.html">見る</a>
     </div>
 
     <div class="card">
       <h3>𝓐𝓬𝓽𝓲𝓿𝓪𝓽𝓮</h3>
-      <p>イベント特化</p>
+      <p>イベ鯖専用Bot</p>
     </div>
 
     <div class="card">
@@ -350,16 +357,23 @@ document.addEventListener('mousemove', e=>{
 });
 
 // タイピング
-const text="使えないなら作ってしまえDiscord Bot";
-let i=0;
-function typing(){
-  if(i<text.length){
-    document.getElementById("typing").innerHTML+=text[i];
-    i++;
-    setTimeout(typing,40);
+const text = "使えないなら作ってしまえDiscord Bot";
+let i = 0;
+
+function startTyping() {
+  i = 0;
+  document.getElementById("typing").innerHTML = "";
+
+  function typing() {
+    if (i < text.length) {
+      document.getElementById("typing").innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, 50);
+    }
   }
+
+  typing();
 }
-typing();
 
 // スクロール表示
 const sections=document.querySelectorAll("section");
@@ -392,10 +406,17 @@ document.querySelectorAll(".card").forEach(card=>{
 // 読み込み
 window.addEventListener("load", ()=>{
   setTimeout(()=>{
-    document.getElementById("loader").style.opacity = "0";
+    const loader = document.getElementById("loader");
+    loader.style.opacity = "0";
+
     setTimeout(()=>{
-      document.getElementById("loader").style.display = "none";
+      loader.style.display = "none";
+
+      // 🔥 ここで開始
+      setTimeout(startTyping, 300);
+
     },500);
+
   },800);
 });
 
