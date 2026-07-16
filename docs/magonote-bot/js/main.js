@@ -1,4 +1,4 @@
-// ===== まごのであります (Magonote) Docs - Navigation & Interactions =====
+// ===== まごの手 (Magonote) Docs - Navigation & Interactions =====
 
 document.addEventListener('DOMContentLoaded', async () => {
 

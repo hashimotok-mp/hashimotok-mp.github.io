@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>コマンド一覧 - まごのであります ドキュメント</title>
+  <title>コマンド一覧 - まごの手 ドキュメント</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
 
     <div class="content">
       <h1>📜 コマンド一覧</h1>
-      <p>まごのであります で使用できるスラッシュコマンドの一覧です。</p>
+      <p>まごの手 で使用できるスラッシュコマンドの一覧です。</p>
 
       <h2>VC系コマンド</h2>
 
@@ -129,6 +129,22 @@
       <h2>管理コマンド</h2>
 
       <div class="command-block">
+        <div class="cmd-name">/bot監視設定</div>
+        <div class="cmd-desc">24時間稼働Botのメッセージを監視し、停止を検知して通知する設定パネルを表示します。</div>
+        <div class="cmd-meta">
+          <span class="tag tag-admin">管理者</span>
+        </div>
+      </div>
+
+      <div class="command-block">
+        <div class="cmd-name">/サーバーカウンター設定</div>
+        <div class="cmd-desc">VC名を自動更新するカウンター設定を管理するパネルを表示します。</div>
+        <div class="cmd-meta">
+          <span class="tag tag-admin">管理者</span>
+        </div>
+      </div>
+
+      <div class="command-block">
         <div class="cmd-name">/自動キック</div>
         <div class="cmd-desc">指定したロールを持たないメンバーを一括キックします。最大10ロールまで指定可能。</div>
         <div class="cmd-meta">
@@ -142,15 +158,6 @@
         <div class="cmd-desc">カテゴリごとにメンバーの閲覧・接続権限を管理するパネルを作成します。</div>
         <div class="cmd-meta">
           <span class="tag tag-admin">管理者</span>
-        </div>
-      </div>
-
-      <div class="command-block">
-        <div class="cmd-name">/sync</div>
-        <div class="cmd-desc">スラッシュコマンドを手動同期します（オーナー専用）。タイプ: global / guild / all_guild</div>
-        <div class="cmd-meta">
-          <span class="tag tag-admin">管理者</span>
-          <span class="tag tag-info">引数: type_code</span>
         </div>
       </div>
 
@@ -214,6 +221,11 @@
             <td>VC権限昼夜切替</td>
             <td>昼夜の特定時刻にVC/チャンネルの権限を切替</td>
             <td>定時実行（1分ごと）</td>
+          </tr>
+          <tr>
+            <td>Bot監視</td>
+            <td>監視対象Botのメッセージを定期チェックし、停止を検知して通知</td>
+            <td>定時実行（30秒ごと）</td>
           </tr>
         </tbody>
       </table>
