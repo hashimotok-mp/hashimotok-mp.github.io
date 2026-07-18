@@ -98,7 +98,7 @@ def main():
         build_file(fp, ".." if "features" in fp else ".")
 
     print(f"\n✅ 完了! 出力先: {DIST_DIR}")
-    print(f"   dist/ フォルダをブラウザで開いてください。")
+    print("   dist/ フォルダをブラウザで開いてください。")
 
 
 if __name__ == "__main__":
