@@ -541,6 +541,29 @@ tr:hover td {
   margin-bottom: 4px;
 }
 
+.steps li ul {
+  margin-bottom: 0;
+  margin-top: 8px;
+  padding-left: 16px;
+  color: var(--text-primary);
+}
+
+.steps li ul li {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  margin-bottom: 2px;
+}
+
+.steps li ul li::before {
+  display: none;
+}
+
+.steps li ul li strong {
+  display: inline;
+  margin-bottom: 0;
+}
+
 /* ===== Command block ===== */
 .command-block {
   background: var(--bg-card);
@@ -651,6 +674,74 @@ tr:hover td {
 
   .card-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* ===== Responsive Tables ===== */
+  /* 2列テーブル → カード型縦リスト */
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) {
+    border: none;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) table {
+    width: 100%;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) thead {
+    display: none;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) tbody,
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) tbody tr {
+    display: block;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) tbody tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2))
+    tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2)) tbody td {
+    display: block;
+    padding: 4px 0;
+    border-bottom: none;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2))
+    tbody td:first-child {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.8rem;
+    padding-bottom: 0;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2))
+    tbody td:last-child {
+    color: var(--text-secondary);
+    padding-top: 0;
+  }
+
+  .table-wrapper:has(thead th:first-child:nth-last-child(2))
+    tbody tr:hover td {
+    background: transparent;
+  }
+
+  /* 3列以上のテーブル → 横スクロール */
+  .table-wrapper:not(
+    :has(thead th:first-child:nth-last-child(2))
+  ):not(
+    :has(thead th:first-child:nth-last-child(1))
+  ) table {
+    min-width: 520px;
   }
 }
 
