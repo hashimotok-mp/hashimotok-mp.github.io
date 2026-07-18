@@ -51,6 +51,7 @@ body::before{
   background-size:40px 40px;
   animation:gridMove 20s linear infinite;
   z-index:-1;
+  pointer-events:none;
 }
 
 @keyframes gridMove{
@@ -256,6 +257,7 @@ h2{
   position:fixed;
   bottom:20px;
   right:20px;
+  z-index:999;
 }
 
 #progress-bar{
@@ -278,9 +280,9 @@ h2{
   background:#0a0a0f; /* 初期は黒 */
   transform:scaleY(0);
   transform-origin:bottom;
-  transition:transform 0.5s ease;
   z-index:99999;
   filter: blur(10px);
+  pointer-events:none;
   transition: transform 0.5s ease, filter 0.5s ease;
 }
 </style>
@@ -476,6 +478,7 @@ document.querySelectorAll("a").forEach(link=>{
         sessionStorage.setItem("transitionDir", "back");
       }
 
+      overlay.style.pointerEvents = "auto";
       overlay.style.transformOrigin = "bottom";
       overlay.style.transform = "scaleY(1)";
 
