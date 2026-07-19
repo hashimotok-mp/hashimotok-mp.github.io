@@ -70,8 +70,8 @@
             <td>週間・月間のランキングを表示</td>
           </tr>
           <tr>
-            <td>チャット分離</td>
-            <td>テキストCHとインチャットを別々に計測・表示</td>
+            <td>XP集計モード</td>
+            <td>全体・VC/チャット・VC/チャット/インチャットの3モード</td>
           </tr>
           <tr>
             <td>ランダムEXP</td>
@@ -181,6 +181,60 @@
         VCから切断すると、接続開始時からの経過時間に応じたXPが
         一括で計算されて加算されます。</p>
       </div>
+
+      <h3>XP集計モード</h3>
+      <p>
+        プリセットごとに<strong>XP集計モード</strong>を選択できます。
+        設定パネルの「XP集計モード」をクリックするたびに
+        3つのモードが循環します。
+      </p>
+      <div class="table-wrapper"><table>
+        <thead>
+          <tr>
+            <th>モード</th>
+            <th>表示名</th>
+            <th>チャットXP</th>
+            <th>VC XP</th>
+            <th>VC/Stage内チャット</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>combined</code></td>
+            <td>🔄 全体</td>
+            <td><code>total_exp</code>（単一追跡）</td>
+            <td><code>total_exp</code>（単一追跡）</td>
+            <td><code>total_exp</code>（単一追跡）</td>
+          </tr>
+          <tr>
+            <td><code>separate</code></td>
+            <td>🔀 VC/チャット</td>
+            <td><code>chat_exp</code> + <code>total_exp</code></td>
+            <td><code>vc_exp</code> + <code>total_exp</code></td>
+            <td><code>chat_exp</code> + <code>total_exp</code></td>
+          </tr>
+          <tr>
+            <td><code>inchat</code></td>
+            <td>🎙️ VC/チャット/インチャット</td>
+            <td><code>chat_exp</code> + <code>total_exp</code></td>
+            <td><code>vc_exp</code> + <code>total_exp</code></td>
+            <td><code>inchat_exp</code>（独立追跡）</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>全体 (combined)</strong>:
+          チャット・VCの全活動が同じXPプールに加算されます。
+          単一レベルでシンプルな運用に向いています。</li>
+        <li><strong>VC/チャット (separate)</strong>:
+          チャットXPとVC XPが別々に記録されます。
+          総合レベルは両方の合計で上がります。</li>
+        <li><strong>VC/チャット/インチャット (inchat)</strong>:
+          separate と同様ですが、VCチャンネル内のテキストチャットや
+          ステージチャンネルでの発言のみが独立した
+          <code>inchat_exp</code> テーブルに記録されます。
+          充実したVC内チャットを評価したい場合に最適です。</li>
+      </ul>
 
       <h2>ランダムEXPシステム</h2>
       <p>
@@ -297,29 +351,50 @@ int(hi * R ** 0.5)</code></pre>
 
       <h3>#️⃣ チャンネルフィルター</h3>
       <p>
-        特定のチャンネル・カテゴリのみXP計測対象とすることができます。
+        特定のチャンネル・カテゴリをXP計測の対象・除外に指定できます。
+        テキストCH（TC）とVCで独立して設定可能です。
+      </p>
+      <p>
+        フィルターは<strong>ホワイトリスト（許可）</strong>と
+        <strong>ブラックリスト（拒否）</strong>の2つを
+        同時に設定できます。
       </p>
       <div class="table-wrapper"><table>
         <thead>
           <tr>
-            <th>モード</th>
+            <th>リスト</th>
             <th>挙動</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>allow</code>（許可）</td>
-            <td>指定したCH/カテゴリのみXP計測</td>
+            <td>✅ ホワイトリスト</td>
+            <td>
+              設定されている場合、該当CH/カテゴリのみXP計測。
+              未設定（空）の場合は全CHが対象。
+            </td>
           </tr>
           <tr>
-            <td><code>deny</code>（拒否）</td>
-            <td>指定したCH/カテゴリをXP計測から除外</td>
+            <td>❌ ブラックリスト</td>
+            <td>
+              該当CH/カテゴリをXP計測から除外。
+              ホワイトリストより優先（ホワイトにあってもBLなら除外）。
+            </td>
           </tr>
         </tbody>
       </table></div>
       <p>
-        テキストCH・VCともに個別に設定可能です。
-        カテゴリを指定すると、そのカテゴリ内の全チャンネルが対象になります。
+        テキストCH（TC）とVCでそれぞれ以下の4項目を設定できます：
+      </p>
+      <ul>
+        <li>✅ カテゴリWH（そのカテゴリ内の全CHが許可対象）</li>
+        <li>✅ チャンネルWH（個別のCHを許可対象）</li>
+        <li>❌ カテゴリBL（そのカテゴリ内の全CHを除外）</li>
+        <li>❌ チャンネルBL（個別のCHを除外）</li>
+      </ul>
+      <p>
+        設定は専用Modalで行います。Modal内の4つのChannelSelectで
+        それぞれWH/BLのカテゴリ・チャンネルを選択できます。
       </p>
 
       <h3>📊 期間ランキング</h3>
@@ -490,8 +565,11 @@ max(100, 50 * L ** 1.5)
       <div class="command-block">
         <div class="cmd-name">/rank [@ユーザー]</div>
         <div class="cmd-desc">
-          自分または指定ユーザーのランクを表示します。
-          チャット分離設定時はインチャットのランクも別途表示されます。
+          自分または指定ユーザーのランクを表示します。<br>
+          <strong>全体モード</strong>: 単一レベル（total_exp）のみ表示<br>
+          <strong>VC/チャットモード</strong>: チャットXP・VC XPを個別表示<br>
+          <strong>インチャットモード</strong>: 通常チャットとVC内チャットの
+          レベルを別々に表示
         </div>
         <div class="cmd-meta"><span class="tag tag-user">全員</span></div>
       </div>
@@ -542,8 +620,8 @@ max(100, 50 * L ** 1.5)
             <td>VC XPの計測ON/OFF</td>
           </tr>
           <tr>
-            <td>チャット分離</td>
-            <td>テキストCHとインチャットを別々に計測</td>
+            <td>🔀 XP集計モード</td>
+            <td>クリックで combined/separate/inchat を循環</td>
           </tr>
         </tbody>
       </table></div>
