@@ -193,46 +193,56 @@
           <tr>
             <th>モード</th>
             <th>表示名</th>
-            <th>チャットXP</th>
-            <th>VC XP</th>
+            <th>チャットXPの記録先</th>
+            <th>VC XPの記録先</th>
             <th>VC/Stage内チャット</th>
+            <th>レベル判定</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><code>combined</code></td>
             <td>🔄 全体</td>
-            <td><code>total_exp</code>（単一追跡）</td>
-            <td><code>total_exp</code>（単一追跡）</td>
-            <td><code>total_exp</code>（単一追跡）</td>
+            <td><code>chat_exp</code></td>
+            <td><code>vc_exp</code>（記録のみ）</td>
+            <td><code>chat_exp</code></td>
+            <td><code>chat_level</code>（単一）</td>
           </tr>
           <tr>
             <td><code>separate</code></td>
             <td>🔀 VC/チャット</td>
-            <td><code>chat_exp</code> + <code>total_exp</code></td>
-            <td><code>vc_exp</code> + <code>total_exp</code></td>
-            <td><code>chat_exp</code> + <code>total_exp</code></td>
+            <td><code>chat_exp</code></td>
+            <td><code>vc_exp</code></td>
+            <td><code>chat_exp</code></td>
+            <td><code>chat_level</code> + <code>vc_level</code></td>
           </tr>
           <tr>
             <td><code>inchat</code></td>
             <td>🎙️ VC/チャット/インチャット</td>
-            <td><code>chat_exp</code> + <code>total_exp</code></td>
-            <td><code>vc_exp</code> + <code>total_exp</code></td>
-            <td><code>inchat_exp</code>（独立追跡）</td>
+            <td><code>chat_exp</code></td>
+            <td><code>vc_exp</code></td>
+            <td><code>inchat_exp</code>（独立）</td>
+            <td><code>chat_level</code> + <code>vc_level</code> + <code>inchat.level</code></td>
           </tr>
         </tbody>
       </table></div>
       <ul>
         <li><strong>全体 (combined)</strong>:
-          チャット・VCの全活動が同じXPプールに加算されます。
-          単一レベルでシンプルな運用に向いています。</li>
+          チャットXPは <code>chat_exp</code>、VC XPは
+          <code>vc_exp</code> に記録されます。
+          レベルは <strong><code>chat_level</code></strong>
+          のみで管理され、チャット活動がメインの成長要因です。
+          <code>vc_exp</code> は記録のみでレベルには影響しません。</li>
         <li><strong>VC/チャット (separate)</strong>:
-          チャットXPとVC XPが別々に記録されます。
-          総合レベルは両方の合計で上がります。</li>
+          チャットXP → <code>chat_exp</code> / <code>chat_level</code>、
+          VC XP → <code>vc_exp</code> / <code>vc_level</code> として
+          独立したレベルを持ちます。
+          チャットとVCの両方でレベルアップが可能です。</li>
         <li><strong>VC/チャット/インチャット (inchat)</strong>:
-          separate と同様ですが、VCチャンネル内のテキストチャットや
-          ステージチャンネルでの発言のみが独立した
-          <code>inchat_exp</code> テーブルに記録されます。
+          separate と同様にチャット・VCで独立したレベルを持ちつつ、
+          VCチャンネル内のテキストチャットやステージチャンネルでの
+          発言のみが別テーブル <code>inchat_exp</code> に記録され、
+          <strong>3つ目の独立したレベル</strong>として表示されます。
           充実したVC内チャットを評価したい場合に最適です。</li>
       </ul>
 
@@ -566,7 +576,7 @@ max(100, 50 * L ** 1.5)
         <div class="cmd-name">/rank [@ユーザー]</div>
         <div class="cmd-desc">
           自分または指定ユーザーのランクを表示します。<br>
-          <strong>全体モード</strong>: 単一レベル（total_exp）のみ表示<br>
+          <strong>全体モード</strong>: チャットレベル（chat_level）表示<br>
           <strong>VC/チャットモード</strong>: チャットXP・VC XPを個別表示<br>
           <strong>インチャットモード</strong>: 通常チャットとVC内チャットの
           レベルを別々に表示
